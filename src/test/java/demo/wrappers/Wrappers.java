@@ -20,6 +20,18 @@ public class Wrappers {
     /*
      * Write your selenium wrappers here
      */
+    public static void Wsendkeys(WebElement element,String string){
+      element.clear();    // Used to clear the textbox in the given element
+      element.sendKeys(string); //Used to sendkeys in the given element 
+      System.out.println("string written in element success");
+    }
+    public static void Wsendbuttons(WebElement element, Keys key){
+      element.sendKeys(key);  // Used to Enter Key textbox in the given element
+      System.out.println("string written in element success");
+    }
+    public static void Sync(int value) throws InterruptedException{
+      Thread.sleep(value);    // This is used to keep the website in synch with automation..
+    }
 
      //public Wrappers(WebDriver driver){
        // this.driver = driver;

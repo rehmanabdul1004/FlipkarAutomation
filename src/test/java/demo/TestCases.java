@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WrapsElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,6 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.sql.Wrapper;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +35,23 @@ public class TestCases {
     public boolean tagCheck(WebElement a){
         return false;
     }
-    @Test
+    @Test   // Code for TestCase-01
     public void testCase01() throws InterruptedException{
         //boolean status = false;
         int count =0;
-        driver.get("http://www.flipkart.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.get("http://www.flipkart.com/");     //Url for the Websote to open using driver
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));     //Initialization of Wait
+        //This wait is used to wait until page is loaded completely.
+        wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete")); 
+        Wrappers.Wsendkeys(SearchBar,"Washing Machine");    //Usage of Wrapper calss to sendkeys
+        //SearchBar.sendKeys(Keys.ENTER);
+        Wrappers.Wsendbuttons(SearchBar, Keys.ENTER);   //Usage of Wrapper calss to Click ENTER
+        //This wait is used to wait until page is loaded completely.
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        SearchBar.sendKeys("Washing Machine");
-        SearchBar.sendKeys(Keys.ENTER);
-        wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        Thread.sleep(2000);
+        Wrappers.Sync(2000);        // Usage of Wrapper class to Sync to the website
         WebElement popularityButton = driver.findElement(By.xpath("//*[text()='Popularity']"));
-        popularityButton.click();
-        Thread.sleep(1000);
-        //*[@id="container"]/div/div[3]/div[1]/div[2]/div
+        popularityButton.click();         // Here WebElement is clicked 
+        Wrappers.Sync(1000);        // Usage of Wrapper class to Sync to the website
         List<WebElement> searchListElements = driver.findElements(By.xpath("//*[@id='container']/div/div[3]/div[1]/div[2]/div/div/div/div/a"));
         for(WebElement a: searchListElements){
             //System.out.println(a.toString());
@@ -67,19 +72,23 @@ public class TestCases {
             }catch(Exception e){
                 System.out.println("Got a error while accesing");
             }
-            Thread.sleep(2000);
+            Wrappers.Sync(2000);
         }
         System.out.println(count);
     }
-    @Test
+    @Test   //  // Code for TestCase-02
     public void testCase02(){
-        driver.get("http://www.flipkart.com/");
+        driver.get("http://www.flipkart.com/");     //Url for the Websote to open using driver
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //This wait is used to wait until page is loaded completely.
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        SearchBar.clear();
-        SearchBar.sendKeys("iPhone");
-        SearchBar.sendKeys(Keys.ENTER);
+        //SearchBar.clear();
+        //SearchBar.sendKeys("iPhone");
+        //SearchBar.sendKeys(Keys.ENTER);
+        Wrappers.Wsendkeys(SearchBar,"iPhone");     // Usage of Wrapper class to sendKeys of String
+        Wrappers.Wsendbuttons(SearchBar, Keys.ENTER);      // Usage of Wrapper class to ENTER key
         //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //This wait is used to wait until page is loaded completely.
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         List<WebElement> TC2Titles= driver.findElements(By.xpath("//*[@id='container']/div/div[3]/div[1]/div[2]/div/div/div/div/a"));
         for(WebElement a: TC2Titles){
@@ -111,33 +120,35 @@ public class TestCases {
                 if(discountValue>17){System.out.println("Ttitle is - " + title+"Discount is - "+ discountValue);}
                 
             }catch(Exception e){}
-            
         } 
     }
-    @Test
+    @Test   // Code for TestCase-02
     public void testCase03() throws InterruptedException{
-        driver.get("http://www.flipkart.com/");
+        driver.get("http://www.flipkart.com/");     // Usage of url to open Website
         Actions action = new Actions(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //This wait is used to wait until page is loaded completely.
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        SearchBar.clear();
-        SearchBar.sendKeys("Coffee Mug");
-        SearchBar.sendKeys(Keys.ENTER);
+        //SearchBar.clear();
+        //SearchBar.sendKeys("Coffee Mug");
+        //SearchBar.sendKeys(Keys.ENTER);
+        Wrappers.Wsendkeys(SearchBar,"Coffee Mug");  // Usage of Wrapper class to sendKeys of String
+        Wrappers.Wsendbuttons(SearchBar, Keys.ENTER);      // Usage of Wrapper class to ENTER key
         //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //This wait is used to wait until page is loaded completely.
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        
         WebElement checkbox4star = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[3]/div[1]/div[1]/div/div/div/section[5]/div[2]/div/div[1]/div/label"));
         action.moveToElement(checkbox4star).perform();
         //Thread.sleep(2000);
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        if(!checkbox4star.isSelected()){
+        if(!checkbox4star.isSelected()){        //Checking for Selecting the string
             checkbox4star.click();
             Thread.sleep(2000);
+            //This wait is used to wait until page is loaded completely.
             wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         }
         List<WebElement> TC3Products= driver.findElements(By.className("slAVV4"));
         for(WebElement a: TC3Products){
-            
             action.moveToElement(a).perform();
             //System.out.println(a.toString());
             WebElement Title = a.findElement(By.xpath("./a[2]"));
@@ -146,8 +157,6 @@ public class TestCases {
             String url = urlimage.getAttribute("src");
             System.out.println("Ttitle is - "+ TtileName + " Url is - "+ url);
         }
-        
-
     }
     /*
      * TODO: Write your tests here with testng @Test annotation. 
@@ -157,7 +166,7 @@ public class TestCases {
      * Do not change the provided methods unless necessary, they will help in automation and assessment
      */
     @SuppressWarnings("deprecation")
-    @BeforeTest
+    @BeforeTest             //This is executed before every test method used 
     public void startBrowser()
     {
         System.setProperty("java.util.logging.config.file", "logging.properties");
@@ -173,21 +182,18 @@ public class TestCases {
         logs.enable(LogType.DRIVER, Level.ALL);
         options.setCapability("goog:loggingPrefs", logs);
         options.addArguments("--remote-allow-origins=*");
-
         System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, "build/chromedriver.log"); 
-
         driver = new ChromeDriver(options);
         //WebDriver driver = new ChromeDriver();
-
-        driver.manage().window().maximize();
+        driver.manage().window().maximize();        // This is used to Maximise the Screen
         PageFactory.initElements(driver, this);
     }
 
-    @AfterTest
+    @AfterTest  // This is executed after every test method used
     public void endTest()
     {
-        driver.close();
-        driver.quit();
+        driver.close();     //This is used to close the Present tab
+        driver.quit();      //This is used to close the Browser Chrome
 
     }
 }
